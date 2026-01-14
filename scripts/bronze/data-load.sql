@@ -1,3 +1,6 @@
+CREATE or ALTER PROCEDURE bronze.load_bronze as
+BEGIN
+BEGIN TRY
 TRUNCATE TABLE bronze.crm_cust_info;
 
 BULK INSERT bronze.crm_cust_info
@@ -57,3 +60,13 @@ WITH (
 	FIELDTERMINATOR = ',',
 	TABLOCK
 )
+
+END TRY
+
+BEGIN CATCH
+print 'err msg' + ERROR_MESSAGE();
+print 'err msg' + CAST(ERROR_NUMBER() as nvarchar)
+print 'err msg' + CAST(ERROR_STATE() as nvarchar)
+END CATCH
+
+END
